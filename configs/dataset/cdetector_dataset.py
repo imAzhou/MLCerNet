@@ -1,7 +1,7 @@
 # dataset settings 
-# data_root = '/disk/medical_datasets/cervix/ComparisonDetectorDataset'
-# data_root = '/x22201018/datasets/CervicalDatasets/ComparisonDetectorDataset'
-data_root = '/c22073/zly/datasets/CervicalDatasets/ComparisonDetectorDataset'
+# data_root = 'cervix/ComparisonDetectorDataset'
+# data_root = 'CervicalDatasets/ComparisonDetectorDataset'
+data_root = 'CervicalDatasets/ComparisonDetectorDataset'
 classes = ['negative', 'ASC-US', 'LSIL', 'ASC-H', 'HSIL', 'AGC']
 num_classes = len(classes)
 train_bs = 128

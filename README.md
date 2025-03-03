@@ -7,7 +7,8 @@
 3. `pip install -r requirements.txt`
 4. `pip install -e .`
 
-## Download Pre-train model weights
+## Download Pre-trained model weights
+Please download weights and save in `checkpoints/`.  
 1. For Vit-L and DINOV2, download from open source code [mmpretrain](https://github.com/open-mmlab/mmpretrain/tree/main)
 2. For Resnet50, download from open source code [timm](https://huggingface.co/timm)
 3. For UNI, download from [UNI github url](https://github.com/mahmoodlab/UNI/tree/main)
@@ -50,7 +51,7 @@ This script formats CDetector to COCO2017.
 Execute the following command:  
    ```
    python scripts/analyze/heatmap_v4.py \
-    log/cdetector_ours/2025_02_20_23_12_21/config.py \
-    log/cdetector_ours/2025_02_20_23_12_21/checkpoints/best.pth \
+    log/cdetector_ours/path_to_your_dir/config.py \
+    log/cdetector_ours/path_to_your_dir/checkpoints/best.pth \
     statistic_results/WSI_heatmap/cdetector
    ```

@@ -207,8 +207,8 @@ if __name__ == '__main__':
     model.load_ckpt(args.ckpt)
     
     classnames = ['P/N', 'ASC-US', 'LSIL', 'ASC-H', 'HSIL', 'AGC']
-    root_dir = '/c22073/zly/datasets/CervicalDatasets/ComparisonDetectorDataset'
-    json_path = '/c22073/zly/datasets/CervicalDatasets/ComparisonDetectorDataset/annofiles/OD_instances_val.json'
+    root_dir = 'CervicalDatasets/ComparisonDetectorDataset'
+    json_path = 'CervicalDatasets/ComparisonDetectorDataset/annofiles/OD_instances_val.json'
     coco = COCO(json_path)
     with open(json_path, 'r') as f:
         img_annos = json.load(f)

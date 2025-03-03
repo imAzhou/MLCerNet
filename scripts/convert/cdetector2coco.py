@@ -238,9 +238,9 @@ def visual_sample():
     
 
 if __name__ == '__main__':
-    # root_dir = '/x22201018/datasets/CervicalDatasets/ComparisonDetectorDataset'
-    root_dir = '/c22073/zly/datasets/CervicalDatasets/ComparisonDetectorDataset'
-    # root_dir = '/disk/medical_datasets/cervix/ComparisonDetectorDataset'
+    # root_dir = 'CervicalDatasets/ComparisonDetectorDataset'
+    root_dir = 'CervicalDatasets/ComparisonDetectorDataset'
+    # root_dir = 'cervix/ComparisonDetectorDataset'
     
     gene_coco_json()
     # visual_sample()
