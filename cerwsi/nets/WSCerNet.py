@@ -2,12 +2,12 @@ import torch
 import torch.nn as nn
 from peft import LoraConfig, get_peft_model
 from mmengine.optim import OptimWrapper
-from .classifier import CerMClassifier
+from .classifier import WSCerClassifier
 from .backbone import get_backbone
 
-class CerMCNet(nn.Module):
+class WSCerNet(nn.Module):
     def __init__(self, num_classes, backbone_type, use_lora, img_size):
-        super(CerMCNet, self).__init__()
+        super(WSCerNet, self).__init__()
         assert backbone_type in ['vit', 'dinov2', 'uni']
         self.backbone,self.embed_dim,self.num_patches = get_backbone(backbone_type, img_size)
         self.backbone_type = backbone_type
@@ -15,13 +15,13 @@ class CerMCNet(nn.Module):
         self.num_classes = num_classes
         if use_lora:
             self.lora_config = LoraConfig(
-                r=8,  # LoRA 的秩
-                lora_alpha=16,  # LoRA 的缩放因子
-                target_modules = ["qkv", "proj", "fc1", "fc2"],  # 应用 LoRA 的目标模块
-                lora_dropout=0.1,  # Dropout 概率
-                bias="none",  # 是否调整偏置
+                r=8,
+                lora_alpha=16,
+                target_modules = ["qkv", "proj", "fc1", "fc2"], 
+                lora_dropout=0.1,
+                bias="none",
             )
-        self.classifier = CerMClassifier(num_classes, self.num_patches, self.embed_dim)
+        self.classifier = WSCerClassifier(num_classes, self.num_patches, self.embed_dim)
 
 
     @property

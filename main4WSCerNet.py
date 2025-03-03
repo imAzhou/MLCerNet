@@ -2,14 +2,11 @@ import torch
 import os
 import time
 from tqdm import tqdm
-from torch.utils.data import DataLoader
-from cerwsi.datasets import TokenClsDataset
-from torch.utils.data.distributed import DistributedSampler
 import torch.distributed as dist
 import argparse
 from mmengine.config import Config
-from cerwsi.nets import CerMCNet
-from torchvision import transforms
+from cerwsi.nets import WSCerNet
+from cerwsi.datasets import load_data
 from cerwsi.utils import MyMultiTokenMetric,BinaryMetric,MultiPosMetric
 from cerwsi.utils import set_seed, init_distributed_mode, get_logger, get_train_strategy, build_evaluator,reduce_loss,is_main_process
 
@@ -27,62 +24,13 @@ parser.add_argument('--dist_url', default='env://', help='url used to set up dis
 
 args = parser.parse_args()
 
-def load_data(cfg):
-    def custom_collate(batch):
-        # 拆分 batch 中的图像和标签
-        images = [item[0] for item in batch]  # 所有 image_tensor，假设 shape 一致
-        image_labels = [item[1] for item in batch]
-        token_labels = [item[2] for item in batch]
-
-        # 将 images 转换为一个批次的张量
-        images_tensor = torch.stack(images, dim=0)
-        imglabels_tensor = torch.as_tensor(image_labels)
-
-        # 返回一个字典，其中包含张量和不规则的标注信息
-        return {
-            'images': images_tensor,
-            'image_labels': imglabels_tensor,
-            'token_labels': token_labels  # 保持 label 的原始列表形式
-        }
-
-    train_transform = transforms.Compose([
-        transforms.Resize(cfg.img_size),
-        transforms.RandomHorizontalFlip(p=0.5),  # 随机水平翻转
-        transforms.RandomVerticalFlip(p=0.5),    # 随机垂直翻转
-        transforms.ToTensor(),
-        transforms.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)),
-    ])
-    train_dataset = TokenClsDataset(cfg.data_root, 'train', train_transform)
-    train_sampler = DistributedSampler(train_dataset)
-    train_loader = DataLoader(train_dataset, 
-                            pin_memory=True,
-                            batch_size=cfg.train_bs, 
-                            sampler = train_sampler,
-                            collate_fn=custom_collate,
-                            num_workers=8)
-    val_transform = transforms.Compose([
-        transforms.Resize(cfg.img_size),
-        transforms.ToTensor(),
-        transforms.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)),
-    ])
-    val_dataset = TokenClsDataset(cfg.data_root, 'val', val_transform)
-    val_sampler = DistributedSampler(val_dataset)
-    val_loader = DataLoader(val_dataset, 
-                            pin_memory=True,
-                            batch_size=cfg.val_bs, 
-                            sampler = val_sampler,
-                            collate_fn=custom_collate,
-                            num_workers=8)
-    
-    return train_loader, val_loader
-
-
 def train_net(cfg, model, model_without_ddp):
     trainloader,valloader = load_data(cfg)
     optimizer,lr_scheduler = get_train_strategy(model_without_ddp, cfg)
     
-    # evaluator = build_evaluator([MyMultiTokenMetric(thr=POSITIVE_THR)])
-    evaluator = build_evaluator([MultiPosMetric(thr=POSITIVE_THR)])
+    evaluator = build_evaluator([MyMultiTokenMetric(thr=POSITIVE_THR)])
+    # evaluator = build_evaluator([BinaryMetric(thr=POSITIVE_THR)])
+    # evaluator = build_evaluator([MultiPosMetric(thr=POSITIVE_THR)])
     
     if is_main_process():
         logger, files_save_dir = get_logger(args.record_save_dir, model_without_ddp, cfg, 'multi_token')
@@ -154,7 +102,7 @@ def main():
     for sub_cfg in [d_cfg, s_cfg]:
         cfg.merge_from_dict(sub_cfg.to_dict())
     
-    model = CerMCNet(
+    model = WSCerNet(
         num_classes = d_cfg['num_classes'], 
         use_lora=cfg.use_lora,
         backbone_type = cfg.backbone_type,
@@ -176,8 +124,8 @@ if __name__ == '__main__':
     main()
 
 '''
-CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 torchrun  --nproc_per_node=8 --master_port=12342 main4WSCerNet.py.py \
-    configs/dataset/multi_patch_uni_dataset.py \
+CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 torchrun  --nproc_per_node=8 --master_port=12342 main4WSCerNet.py \
+    configs/dataset/cdetector_dataset.py \
     configs/train_strategy.py \
-    --record_save_dir log/multi_patch_ablation
+    --record_save_dir log/cdetector
 '''
