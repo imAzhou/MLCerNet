@@ -5,7 +5,7 @@ import numpy as np
 from PIL import Image, ImageDraw
 import matplotlib.pyplot as plt
 from tqdm import tqdm
-from cerwsi.utils import generate_cut_regions,is_bbox_inside
+from mlcernet.utils import generate_cut_regions,is_bbox_inside
 
 POSITIVE_CLASS = ['ASC-US', 'LSIL', 'ASC-H', 'HSIL', 'AGC']
 classes = ['negative', *POSITIVE_CLASS]

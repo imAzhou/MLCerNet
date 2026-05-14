@@ -4,18 +4,18 @@ from tqdm import tqdm
 import torch.distributed as dist
 from mmengine.dist import collect_results
 import argparse
-from cerwsi.datasets import load_data
+from mlcernet.datasets import load_data
 from mmengine.config import Config
-from cerwsi.nets import MultiResNet,MultiVit,MultiUNI
-from cerwsi.utils import MultiPosMetric
-from cerwsi.utils import set_seed, init_distributed_mode, build_evaluator,is_main_process
+from mlcernet.nets import MultiResNet,MultiVit,MultiUNI
+from mlcernet.utils import MultiPosMetric
+from mlcernet.utils import set_seed, init_distributed_mode, build_evaluator,is_main_process
 import json
 from PIL import Image
 import matplotlib.pyplot as plt
 import numpy as np
 
 from prettytable import PrettyTable
-from cerwsi.utils import calculate_metrics,print_confusion_matrix,draw_OD
+from mlcernet.utils import calculate_metrics,print_confusion_matrix,draw_OD
 
 POSITIVE_THR = 0.5
 POSITIVE_CLASS = ['ASC-US','LSIL', 'ASC-H','HSIL', 'AGC']

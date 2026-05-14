@@ -1,22 +1,22 @@
 import torch
 import os
 from tqdm import tqdm
-from cerwsi.datasets import load_data
+from mlcernet.datasets import load_data
 import torch.distributed as dist
 from mmengine.dist import collect_results
 import argparse
 from mmengine.config import Config
-# from cerwsi.nets import MultiPatchUNI
-from cerwsi.nets import CerMCNet
-from cerwsi.utils import MyMultiTokenMetric,MultiPosMetric
-from cerwsi.utils import set_seed, init_distributed_mode, build_evaluator,is_main_process
+# from mlcernet.nets import MultiPatchUNI
+from mlcernet.nets import MLCerNet
+from mlcernet.utils import MyMultiTokenMetric,MultiPosMetric
+from mlcernet.utils import set_seed, init_distributed_mode, build_evaluator,is_main_process
 import json
 from PIL import Image
 import matplotlib.pyplot as plt
 import numpy as np
 
 from prettytable import PrettyTable
-from cerwsi.utils import calculate_metrics,print_confusion_matrix,draw_OD
+from mlcernet.utils import calculate_metrics,print_confusion_matrix,draw_OD
 
 POSITIVE_THR = 0.5
 POSITIVE_CLASS = ['ASC-US','LSIL', 'ASC-H', 'HSIL', 'AGC']
@@ -145,7 +145,7 @@ def main():
 
     cfg = Config.fromfile(args.config_file)
     
-    model = CerMCNet(
+    model = MLCerNet(
         num_classes = cfg['num_classes'], 
         backbone_type = cfg.backbone_type,
         use_lora=cfg.use_lora,
@@ -168,7 +168,7 @@ if __name__ == '__main__':
     # analyze(f'{args.save_dir}/pred_results_0.5.json')
 
 '''
-CUDA_VISIBLE_DEVICES=0,1,2 torchrun  --nproc_per_node=3 --master_port=12340 test_wscernet.py \
+CUDA_VISIBLE_DEVICES=0,1,2 torchrun  --nproc_per_node=3 --master_port=12340 test_mlcernet.py \
     log/multi_patch_ours/2025_02_22_20_57_02/config.py \
     log/multi_patch_ours/2025_02_22_20_57_02/checkpoints/best.pth \
     log/multi_patch_ours/2025_02_22_20_57_02

@@ -5,10 +5,10 @@ from tqdm import tqdm
 import torch.distributed as dist
 import argparse
 from mmengine.config import Config
-from cerwsi.nets import WSCerNet
-from cerwsi.datasets import load_data
-from cerwsi.utils import MyMultiTokenMetric,BinaryMetric,MultiPosMetric
-from cerwsi.utils import set_seed, init_distributed_mode, get_logger, get_train_strategy, build_evaluator,reduce_loss,is_main_process
+from mlcernet.nets import MLCerNet
+from mlcernet.datasets import load_data
+from mlcernet.utils import MyMultiTokenMetric,BinaryMetric,MultiPosMetric
+from mlcernet.utils import set_seed, init_distributed_mode, get_logger, get_train_strategy, build_evaluator,reduce_loss,is_main_process
 
 POSITIVE_THR = 0.5
 
@@ -102,7 +102,7 @@ def main():
     for sub_cfg in [d_cfg, s_cfg]:
         cfg.merge_from_dict(sub_cfg.to_dict())
     
-    model = WSCerNet(
+    model = MLCerNet(
         num_classes = d_cfg['num_classes'], 
         use_lora=cfg.use_lora,
         backbone_type = cfg.backbone_type,
@@ -124,8 +124,8 @@ if __name__ == '__main__':
     main()
 
 '''
-CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 torchrun  --nproc_per_node=8 --master_port=12342 main4WSCerNet.py \
+CUDA_VISIBLE_DEVICES=0,1,2,3,4,5,6,7 torchrun  --nproc_per_node=8 --master_port=12342 main4MLCerNet.py \
     configs/dataset/cdetector_dataset.py \
-    configs/train_strategy.py \
+    configs/train_stratefy.py \
     --record_save_dir log/cdetector
 '''

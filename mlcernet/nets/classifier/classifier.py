@@ -8,12 +8,12 @@ class Classifier(nn.Module, metaclass=ABCMeta):
         '''
         num_classes: positive classes number + 1
         '''
+        super().__init__()
         self.num_classes = num_classes
         self.num_patches = num_patches
         self.embed_dim = embed_dim
         self.feat_size = int(math.sqrt(num_patches))
         self.loss_fn = nn.BCEWithLogitsLoss()
-        super().__init__()
         
     @property
     def device(self):
@@ -29,6 +29,7 @@ class Classifier(nn.Module, metaclass=ABCMeta):
         '''
         pass
     
+    @staticmethod
     def get_batch_gt(positive_logits, databatch):
         '''
         Args:
@@ -65,4 +66,3 @@ class Classifier(nn.Module, metaclass=ABCMeta):
             databatch: batch of data
         '''
         pass
-

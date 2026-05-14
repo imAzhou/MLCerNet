@@ -1,6 +1,6 @@
 import argparse
-from cerwsi.nets import CerMCNet
-from cerwsi.utils import set_seed
+from mlcernet.nets import MLCerNet
+from mlcernet.utils import set_seed
 import torch
 import os
 from pycocotools.coco import COCO
@@ -198,7 +198,7 @@ if __name__ == '__main__':
     device = torch.device(f'cuda:0')
     cfg = Config.fromfile(args.config_file)
     
-    model = CerMCNet(
+    model = MLCerNet(
         num_classes = cfg['num_classes'], 
         backbone_type = cfg.backbone_type,
         use_lora=cfg.use_lora,
@@ -215,8 +215,8 @@ if __name__ == '__main__':
     visual_heatmap()
 
 '''
-python scripts/analyze/heatmap_v4.py \
-    log/cdetector_ours/2025_02_20_23_12_21/config.py \
-    log/cdetector_ours/2025_02_20_23_12_21/checkpoints/best.pth \
+python scripts/analyze/heatmap.py \
+    log/cdetector/path_to_your_run/config.py \
+    log/cdetector/path_to_your_run/checkpoints/best.pth \
     statistic_results/WSI_heatmap/cdetector
 '''

@@ -6,7 +6,7 @@ import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
 from tqdm import tqdm
 import random
-from cerwsi.utils import generate_cut_regions,is_bbox_inside
+from mlcernet.utils import generate_cut_regions,is_bbox_inside
 
 POSITIVE_CLASS = ['ASC-US', 'LSIL', 'ASC-H', 'HSIL', 'AGC']
 classes = ['negative', *POSITIVE_CLASS]

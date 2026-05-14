@@ -150,12 +150,12 @@ class Attention(nn.Module):
         return out, attn_
 
 
-class WSCerClassifier(Classifier):
+class MLCerClassifier(Classifier):
     def __init__(self, num_classes, num_patches, embed_dim, pos_add_type='sam', depth=2):
         '''
         num_classes: positive classes number + 1
         '''
-        super(WSCerClassifier, self).__init__(num_classes, num_patches, embed_dim)
+        super(MLCerClassifier, self).__init__(num_classes, num_patches, embed_dim)
         assert pos_add_type in ['sam', 'query2label']
         proj_dim_1 = 512
         self.pos_add_type = pos_add_type
@@ -238,7 +238,7 @@ class WSCerClassifier(Classifier):
         img_pn_logit = pred_logits[:, 0]
         positive_logits = pred_logits[:, 1:]
 
-        databatch['img_probs'] = torch.sigmoid(img_pn_logit).squeeze(-1)   # (bs, )
+        databatch['img_probs'] = torch.sigmoid(img_pn_logit)   # (bs, )
         databatch['pos_probs'] = torch.sigmoid(positive_logits) # (bs, num_classes-1)
         databatch['attn_array'] = attn_array # (bs, num_classes, num_tokens)
         return databatch
