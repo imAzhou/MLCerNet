@@ -3,8 +3,6 @@
 Official implementation of **Multi-Label Learning for Reliable Cervical Cytology
 Screening**. (ICIC2026)
 
-Repository: <https://github.com/imAzhou/MLCerNet>
-
 
 ## Overview
 
