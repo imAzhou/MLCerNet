@@ -165,13 +165,21 @@ python scripts/analyze/heatmap.py \
 If you find our work useful, please cite it as:
 
 ```bibtex
-@incollection{zhou2024mlcernet,
-  title={Multi-label learning for reliable cervical cytology screening},
-  author={Zhou, Liang and others},
-  booktitle={Intelligent Computing},
-  pages={1--12},
-  year={2024},
-  publisher={Springer}
+@inproceedings{zhou2026multilabel,
+  author    = {Zhou, Linyun and Li, Weihan and Yang, Jian and
+               Wang, Xiaoling and Zhang, Xiuming and
+               Feng, Zunlei and Hu, Bingde},
+  title     = {Multi-label Learning for Reliable Cervical Cytology Screening},
+  booktitle = {Advanced Intelligent Computing Technology and Applications},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {16670},
+  pages     = {50--62},
+  publisher = {Springer Nature Singapore},
+  address   = {Singapore},
+  year      = {2026},
+  doi       = {10.1007/978-981-92-3495-0_5},
+  url       = {https://doi.org/10.1007/978-981-92-3495-0_5},
+  isbn      = {978-981-92-3495-0}
 }
 ```
 
