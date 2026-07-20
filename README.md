@@ -6,7 +6,7 @@ Screening**. (ICIC2026)
 
 ## Overview
 
-This repository contains PyTorch code for multi label cervical lesion classification and localization on patch-level whole-slide image data. The main model is implemented as `MLCerNet` in `mlcernet/nets/MLCerNet.py`, with baseline backbones under `mlcernet/nets/baseline/`.
+This repository contains PyTorch code for multi label cervical lesion classification and localization on patch-level whole-slide image data. The main model is implemented as `MLCerNet` in `mlcernet/network.py`.
 
 Main entry points:
 
@@ -159,6 +159,23 @@ python scripts/analyze/heatmap.py \
   log/cdetector/path_to_your_run/checkpoints/best.pth \
   statistic_results/WSI_heatmap/cdetector
 ```
+
+## Citation
+
+If you find our work useful, please cite it as:
+
+```bibtex
+@incollection{zhou2024mlcernet,
+  title={Multi-label learning for reliable cervical cytology screening},
+  author={Zhou, Liang and others},
+  booktitle={Intelligent Computing},
+  pages={1--12},
+  year={2024},
+  publisher={Springer}
+}
+```
+
+Paper: https://link.springer.com/chapter/10.1007/978-981-92-3495-0_5
 
 ## Contact
 
